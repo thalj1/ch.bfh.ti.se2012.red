@@ -1,9 +1,9 @@
 package ch.bfh.ti.se2012.red.db;
 
-import java.sql.Connection;
-import java.sql.Statement;
-
 public interface IntSqlLogin {
-	
-	public boolean validateLogin(Connection con, Statement stmt, String username, String password); 
+
+	public String getpassword(String username);
+
+	public boolean validateLogin(String username, String password);
+
 }
