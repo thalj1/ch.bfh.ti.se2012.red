@@ -17,5 +17,4 @@ public class TeamRed extends Application {
 //		mainWindow.addComponent(login);
 		setMainWindow(mainWindow);
 	}
-
 }
