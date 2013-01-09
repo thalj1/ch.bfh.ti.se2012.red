@@ -9,5 +9,6 @@ public class Main {
 		
 		SqlLogin login = new SqlLogin();
 		System.out.println(login.validateLogin("bpascal", "123456"));
+		System.out.println(login.validateLogin("", ""));
 	}
 }

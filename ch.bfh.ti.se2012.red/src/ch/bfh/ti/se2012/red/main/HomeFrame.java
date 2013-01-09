@@ -1,33 +1,29 @@
 package ch.bfh.ti.se2012.red.main;
 
+import ch.bfh.ti.se2012.red.home.HomeScreen;
 import ch.bfh.ti.se2012.red.login.LoginWindow;
 
+
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
-
 import com.vaadin.ui.CustomComponent;
-
+import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
-
 import com.vaadin.ui.Label;
-
 import com.vaadin.ui.Panel;
-
 import com.vaadin.ui.VerticalLayout;
 
+@SuppressWarnings("serial")
 public class HomeFrame extends CustomComponent {
 
-	private VerticalLayout mainLayout;
+	private static VerticalLayout mainLayout;
 
 	private HorizontalLayout headerLayout;
+	
+	private static HorizontalLayout buttomLayout;
 
-	private Button back;
 
-	private Button homeBT;
-
-	private Label label;
-
-	private Component input;
+	private static LoginWindow login;
+	private static HomeScreen home; 
 
 	public HomeFrame() {
 
@@ -39,81 +35,42 @@ public class HomeFrame extends CustomComponent {
 
 	private VerticalLayout buildVerticalStructure() {
 
-		mainLayout = new VerticalLayout();
-
+		mainLayout = new VerticalLayout(); 
+		
 		headerLayout = new HorizontalLayout();
-
 		headerLayout.setWidth("640px");
-
-		headerLayout.setHeight("10%");
-
-		back = new Button("zurück");
-
-		headerLayout.addComponent(back);
-
-		label = new Label("M.A.P.");
-
-		headerLayout.addComponent(label);
-
-		homeBT = new Button("HOME");
-
-		headerLayout.addComponent(homeBT);
-
-		// inputLayout.setWidth("640px");
-
-		// inputLayout.setHeight("90%");
-
-		input =  new LoginWindow();
-
-		// inputLayout.addComponent(input);
-
+//		GridLayout labelgridheader = new GridLayout(3, 5);
+//		labelgridheader.setWidth("420px");
+//		labelgridheader.setHeight("80px");
+//		Label label = new Label("Team Red Application");
+//		labelgridheader.addComponent(label); 
+//		headerLayout.addComponent(labelgridheader);
+		
 		mainLayout.addComponent(headerLayout);
-
-		mainLayout.addComponent(input);
-
+		
+		
+		login =  new LoginWindow();
+		mainLayout.addComponent(login);
+		home = new HomeScreen();
+		
+		buttomLayout = new HorizontalLayout();
+		Panel panel = new Panel("Navigation");
+		panel.setWidth("420px");
+		GridLayout labelgrid = new GridLayout(3, 5);
+		labelgrid.setWidth("400px");
+		labelgrid.setHeight("25px");
+		labelgrid.addComponent(new Button("Zurück"));
+		labelgrid.addComponent(new Button("Menü"));
+		labelgrid.addComponent(new Button("Logout"));
+		panel.addComponent(labelgrid);
+		buttomLayout.addComponent(panel);
+		
 		return mainLayout;
 
 	}
-
-	class InputComponent extends CustomComponent {
-
-		public InputComponent() {
-			
 	
-//			// A layout structure used for composition
-//
-//			Panel panel = new Panel();
-//
-//			panel.setContent(new HorizontalLayout());
-//
-//			// Compose from multiple components
-//
-//			Label label = new Label("test");
-//
-//			label.setSizeUndefined(); // Shrink
-//
-//			panel.addComponent(label);
-//
-//			panel.addComponent(new Button("Agenda"));
-//
-//			panel.addComponent(new Button("Rezepte"));
-//
-//			panel.addComponent(new Button("MyDay"));
-//
-//			// Set the size as undefined at all levels
-//
-//			panel.getContent().setSizeUndefined();
-//
-//			panel.setSizeUndefined();
-//
-//			setSizeUndefined();
-//
-//			// The composition root MUST be set
-//
-//			setCompositionRoot(panel);
-
-		}
-
+	public static void changetoMenu(){
+		mainLayout.replaceComponent(login, home); 
+		mainLayout.addComponent(buttomLayout);
 	}
-
 }
