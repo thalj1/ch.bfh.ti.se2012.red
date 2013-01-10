@@ -14,7 +14,7 @@ public class SqlLogin implements IntSqlLogin {
     private String result;
 
     public SqlLogin(){
-        conection = new SqlConnection();
+        conection = SqlConnection.getInstance(); 
         conection.connect();
         stmt = conection.getstatement();
         rs = conection.getresultset();

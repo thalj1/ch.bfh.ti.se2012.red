@@ -9,79 +9,91 @@ import java.sql.Statement;
 
 public class SqlConnection {
 
-    private Connection conn;
-    private Statement stmt;
-    private ResultSet rs;
+	private Connection conn;
+	private Statement stmt;
+	private ResultSet rs;
 
-    public void connect() {
+	private static SqlConnection single = null;
 
-        try {
-            // Load the database driver
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            // Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
+	public static SqlConnection getInstance() {
+		if (single == null) {
+			single = new SqlConnection();
+		}
+		return single;
+	}
+	
+	private SqlConnection() {}
 
-            // Get a connection to the database
-            String url = "jdbc:jtds:sqlserver://147.87.98.131:55783";
-            Connection conn = DriverManager.getConnection(url, "se2012_red",
-                    "Thanuc57ch");
+	public void connect() {
 
-            // Get a statement from the connection
-            stmt = conn.createStatement();
+		try {
+			// Load the database driver
+			Class.forName("net.sourceforge.jtds.jdbc.Driver");
+			// Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
 
-            // Print all warnings
-            for (SQLWarning warn = conn.getWarnings(); warn != null; warn = warn
-                    .getNextWarning()) {
-                System.out.println("SQL Warning:");
-                System.out.println("State  : " + warn.getSQLState());
-                System.out.println("Message: " + warn.getMessage());
-                System.out.println("Error  : " + warn.getErrorCode());
-            }
-        } catch (SQLException se) {
-            System.out.println("SQL Exception:");
+			// Get a connection to the database
+			String url = "jdbc:jtds:sqlserver://147.87.98.131:55783";
+			Connection conn = DriverManager.getConnection(url, "se2012_red",
+					"Thanuc57ch");
 
-            // Loop through the SQL Exceptions
-            while (se != null) {
-                System.out.println("State  : " + se.getSQLState());
-                System.out.println("Message: " + se.getMessage());
-                System.out.println("Error  : " + se.getErrorCode());
+			// Get a statement from the connection
+			stmt = conn.createStatement();
 
-                se = se.getNextException();
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+			// Print all warnings
+			for (SQLWarning warn = conn.getWarnings(); warn != null; warn = warn
+					.getNextWarning()) {
+				System.out.println("SQL Warning:");
+				System.out.println("State  : " + warn.getSQLState());
+				System.out.println("Message: " + warn.getMessage());
+				System.out.println("Error  : " + warn.getErrorCode());
+			}
+		} catch (SQLException se) {
+			System.out.println("SQL Exception:");
 
-    }
+			// Loop through the SQL Exceptions
+			while (se != null) {
+				System.out.println("State  : " + se.getSQLState());
+				System.out.println("Message: " + se.getMessage());
+				System.out.println("Error  : " + se.getErrorCode());
 
-    public Connection getconnection(){
-        return conn;
-    }
-    public Statement getstatement(){
-        return stmt;
-    }
-    public ResultSet getresultset(){
-        return rs;
-    }
+				se = se.getNextException();
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 
-    public void disconnect() {
-        try {
-            // Close the result set, statement and the connection
-            conn.close();
+	}
 
-        } catch (SQLException se) {
-            System.out.println("SQL Exception:");
+	public Connection getconnection() {
+		return conn;
+	}
 
-            // Loop through the SQL Exceptions
-            while (se != null) {
-                System.out.println("State  : " + se.getSQLState());
-                System.out.println("Message: " + se.getMessage());
-                System.out.println("Error  : " + se.getErrorCode());
+	public Statement getstatement() {
+		return stmt;
+	}
 
-                se = se.getNextException();
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
+	public ResultSet getresultset() {
+		return rs;
+	}
+
+	public void disconnect() {
+		try {
+			// Close the result set, statement and the connection
+			conn.close();
+
+		} catch (SQLException se) {
+			System.out.println("SQL Exception:");
+
+			// Loop through the SQL Exceptions
+			while (se != null) {
+				System.out.println("State  : " + se.getSQLState());
+				System.out.println("Message: " + se.getMessage());
+				System.out.println("Error  : " + se.getErrorCode());
+
+				se = se.getNextException();
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
 }
-
