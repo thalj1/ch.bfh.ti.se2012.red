@@ -16,6 +16,12 @@
 			<param-name>application</param-name>
 			<param-value>ch.bfh.ti.se2012.red.TeamRed</param-value>
 		</init-param>
+		<init-param>
+			<description>
+			Application widgetset</description>
+			<param-name>widgetset</param-name>
+			<param-value>ch.bfh.ti.se2012.red.start.widgetset.Ch_bfh_ti_se2012_redWidgetset</param-value>
+		</init-param>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>TeamRed</servlet-name>

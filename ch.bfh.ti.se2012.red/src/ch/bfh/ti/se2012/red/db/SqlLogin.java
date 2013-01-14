@@ -62,19 +62,20 @@ public class SqlLogin implements IntSqlLogin {
         	String query = "SELECT UPassword FROM db_red.dbo.Login WHERE Username='"
                      + username + "'";
             rs = stmt.executeQuery(query);
-            if (result!=null){
-      //      rs.moveToInsertRow();
+     
+            	
+            if(rs.next()){
             rs.updateString(1, newpassword);
-//            rs.insertRow();
-//            rs.beforeFirst();
-           
-            while (rs.next()) {
-                // Loop through the result set
-                result = rs.getString(1);
             }
+
+            
+//            while (rs.next()) {
+//                // Loop through the result set
+//                result = rs.getString(1);
+//            }
             // Close the result set, statement and the connection
             rs.close();
-            }
+            
 
         } catch (SQLException e) {
             // TODO Auto-generated catch block
