@@ -36,7 +36,7 @@ public class LoginWindow extends CustomComponent {
 	private VerticalLayout vlayout;
 	private LoginForm login;
 	private Label label; 
-	//private SqlLogin sqllogin = new SqlLogin();
+	private SqlLogin sqllogin;
 	private String username;
 	private String password;
 
@@ -67,21 +67,22 @@ public class LoginWindow extends CustomComponent {
 			     System.out.println(username);
 			     System.out.println(password);
 				
-				if(username.equals("Hans") & password.equals("1234")){
-					HomeFrame.changetoMenu(); 
-				}
-				else{
-					label.setVisible(true);	
-				}
-				
-			
-
-//				if(sqllogin.validateLogin(username, password)){
-//					HomeFrame.changetoMenu(); 
+//				if(username.equals("Hans") & password.equals("1234")){
+//					HomeFrame.changetoWindow("login","home");
 //				}
 //				else{
 //					label.setVisible(true);	
 //				}
+				
+			
+			     sqllogin = new SqlLogin();
+				if(sqllogin.validateLogin(username, password)){
+					HomeFrame.changetoWindow("login", "home") ;
+					label.setVisible(false);
+				}
+				else{
+					label.setVisible(true);	
+				}
 
 							
 //				

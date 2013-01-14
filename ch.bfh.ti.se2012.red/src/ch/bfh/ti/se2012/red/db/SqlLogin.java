@@ -3,6 +3,7 @@ package ch.bfh.ti.se2012.red.db;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Connection;
 import java.sql.Statement;
 
 
@@ -10,11 +11,12 @@ public class SqlLogin implements IntSqlLogin {
 
     private Statement stmt;
     private ResultSet rs;
-    private SqlConnection conection;
+    private SQLLocalConnection conection;
     private String result;
+	private Connection conn;
 
-    public SqlLogin(){
-        conection = SqlConnection.getInstance(); 
+    public SqlLogin() {
+        conection = SQLLocalConnection.getInstance(); 
         conection.connect();
         stmt = conection.getstatement();
         rs = conection.getresultset();
@@ -23,7 +25,7 @@ public class SqlLogin implements IntSqlLogin {
 
     public String getpassword(String username) {
         try {
-            String query = "SELECT UPassword FROM Login WHERE Username='"
+            String query = "SELECT UPassword FROM db_red.dbo.Login WHERE Username='"
                     + username + "'";
             rs = stmt.executeQuery(query);
             while (rs.next()) {
@@ -37,17 +39,54 @@ public class SqlLogin implements IntSqlLogin {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        if (result!=null){
+        	return result;	
+        }
+        else 
+        	return "false"; 
         
-        return result;
+        
     }
 
     public boolean validateLogin(String username, String password) {
-        String password1 = getpassword(username);
-        if (password1.equals(password)) {
+        if (getpassword(username).equals(password)) {
             return true;
         } else
             return false;
 
+    }
+    
+    public String setpassword(String username, String newpassword) {
+        try {	
+        	
+        	String query = "SELECT UPassword FROM db_red.dbo.Login WHERE Username='"
+                     + username + "'";
+            rs = stmt.executeQuery(query);
+            if (result!=null){
+      //      rs.moveToInsertRow();
+            rs.updateString(1, newpassword);
+//            rs.insertRow();
+//            rs.beforeFirst();
+           
+            while (rs.next()) {
+                // Loop through the result set
+                result = rs.getString(1);
+            }
+            // Close the result set, statement and the connection
+            rs.close();
+            }
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        if (result!=null){
+        	return result;	
+        }
+        else 
+        	return "false"; 
+        
+        
     }
 
 }

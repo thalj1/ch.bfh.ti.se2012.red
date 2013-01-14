@@ -1,59 +1,85 @@
 package ch.bfh.ti.se2012.red.appointment;
 
+import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.Label;
+import com.vaadin.ui.Panel;
+import com.vaadin.ui.Table;
+import com.vaadin.ui.VerticalLayout;
 
 public class AppointmentPhone extends CustomComponent {
-	
-	private GridLayout phoneLayout;
-	private Label tlName;
-	private Label tlNumber;
-	private Label tlPlace;
-	
+
+	private VerticalLayout appointmentPhoneScreen;
+	private VerticalLayout phoneLayout;
+
+	private static String[] fields = { "Name", "Phonenumber", "Place", "Type" };
+
+	private static String[] visibleCols = new String[] { "Name", "Phonenumber",
+			"Place", "Type" };
+	private Table contactList = new Table();
+	private IndexedContainer addressBookData = createData();
+
 	public AppointmentPhone() {
-		
+		AddressList();
 		buildAppointmentPStructure();
-		setCompositionRoot(phoneLayout);
+		setCompositionRoot(appointmentPhoneScreen);
 	}
-	
-	private GridLayout buildAppointmentPStructure() {
-		
-		phoneLayout = new GridLayout(4,3);
-		
-		tlName = new Label("Name");
-		tlNumber = new Label("Phonenumber");
-		tlPlace = new Label("Place");
-		
-		phoneLayout.addComponent(tlName);
-		phoneLayout.addComponent(tlNumber);
-		phoneLayout.addComponent(tlPlace);
-		
-		Label doctor1 = new Label("Broennimann");
-		Label phone1 = new Label("0719487290");
-		Label place1 = new Label("Biel");
-		
-		phoneLayout.addComponent(doctor1);
-		phoneLayout.addComponent(phone1);
-		phoneLayout.addComponent(place1);
-		
-		Label doctor2 = new Label("Metzger");
-		Label phone2 = new Label("0719409832");
-		Label place2 = new Label("Berne");
-		
-		phoneLayout.addComponent(doctor2);
-		phoneLayout.addComponent(phone2);
-		phoneLayout.addComponent(place2);
-		
-		Label doctor3 = new Label("Schuster");
-		Label phone3 = new Label("0787590911");
-		Label place3 = new Label("Lyss");
-		
-		phoneLayout.addComponent(doctor3);
-		phoneLayout.addComponent(phone3);
-		phoneLayout.addComponent(place3);
-		
-		return phoneLayout;
+
+	private VerticalLayout buildAppointmentPStructure() {
+
+		appointmentPhoneScreen = new VerticalLayout();
+		appointmentPhoneScreen.setWidth("420px");
+		appointmentPhoneScreen.setHeight("250px");
+
+		phoneLayout = new VerticalLayout();
+		phoneLayout.setSpacing(true);
+		phoneLayout.setSizeFull();
+
+		Panel panel = new Panel("Phone Request");
+		panel.setWidth("420px");
+		panel.addComponent(phoneLayout);
+
+		phoneLayout.addComponent(contactList);
+
+		appointmentPhoneScreen.addComponent(panel);
+
+		return appointmentPhoneScreen;
+	}
+
+	private void AddressList() {
+		contactList.setContainerDataSource(addressBookData);
+		contactList.setVisibleColumns(visibleCols);
+		contactList.setSelectable(true);
+		contactList.setImmediate(true);
+	}
+
+	private static IndexedContainer createData() {
+
+		String[] names = { "Dr. Allzeit Bereit", "Dr. Kann Alles",
+				"Hilft Immer" };
+
+		String[] phones = { "0719487290", "0719409832", "0787590911" };
+
+		String[] places = { "Biel", "Bern", "Lyss" };
+
+		String[] types = { "psychiatrist", "psychologist", "spitex" };
+
+		IndexedContainer ic = new IndexedContainer();
+
+		for (String p : fields) {
+			ic.addContainerProperty(p, String.class, "");
+		}
+
+		// Create dummy data by randomly combining first and last names
+		for (int i = 0; i < 3; i++) {
+			Object id = ic.addItem();
+			ic.getContainerProperty(id, "Name").setValue(names[(int) i]);
+			ic.getContainerProperty(id, "Phonenumber")
+					.setValue(phones[(int) i]);
+			ic.getContainerProperty(id, "Place").setValue(places[(int) i]);
+			ic.getContainerProperty(id, "Type").setValue(types[(int) i]);
+		}
+
+		return ic;
 	}
 
 }

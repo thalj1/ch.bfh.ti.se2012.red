@@ -7,22 +7,22 @@ import java.sql.SQLException;
 import java.sql.SQLWarning;
 import java.sql.Statement;
 
-public class SqlConnection {
+public class SQLLocalConnection {
 
 	private Connection conn;
 	private Statement stmt;
 	private ResultSet rs;
 
-	private static SqlConnection single = null;
+	private static SQLLocalConnection single = null;
 
-	public static SqlConnection getInstance() {
+	public static SQLLocalConnection getInstance() {
 		if (single == null) {
-			single = new SqlConnection();
+			single = new SQLLocalConnection();
 		}
 		return single;
 	}
 	
-	private SqlConnection() {}
+	private SQLLocalConnection() {}
 
 	public void connect() {
 
@@ -32,12 +32,12 @@ public class SqlConnection {
 			// Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
 
 			// Get a connection to the database
-			String url = "jdbc:jtds:sqlserver://147.87.98.131:55783";
-			conn = DriverManager.getConnection(url, "se2012_red",
-					"Thanuc57ch");
+			String url = "jdbc:jtds:sqlserver://localhost:49762";
+			conn = DriverManager.getConnection(url, "TeamRed",
+					"1234");
 
 			// Get a statement from the connection
-			stmt = conn.createStatement();
+        	stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
 			// Print all warnings
 			for (SQLWarning warn = conn.getWarnings(); warn != null; warn = warn
@@ -68,9 +68,14 @@ public class SqlConnection {
 		return conn;
 	}
 
-	public Statement getstatement()  {
-//		stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-//		        ResultSet.CONCUR_UPDATABLE);
+	public Statement getstatement() {
+		try {
+			stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+			        ResultSet.CONCUR_UPDATABLE);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return stmt;
 	}
 
@@ -98,4 +103,6 @@ public class SqlConnection {
 			System.out.println(e);
 		}
 	}
+
+	
 }
