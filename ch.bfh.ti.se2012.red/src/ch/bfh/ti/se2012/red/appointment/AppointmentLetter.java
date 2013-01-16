@@ -4,6 +4,8 @@ package ch.bfh.ti.se2012.red.appointment;
 
 import java.util.Date;
 
+import ch.bfh.ti.se2012.red.db.SqlLogin;
+
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
@@ -13,6 +15,7 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Button.ClickEvent;
 
 
 public class AppointmentLetter extends CustomComponent {
@@ -39,6 +42,8 @@ public class AppointmentLetter extends CustomComponent {
 
 	
 	private VerticalLayout buildAppointmentLStructure() {
+		
+		final Termine termine = new Termine(); 
 		
 		appointmentLetterScreen = new VerticalLayout();
 		appointmentLetterScreen.setWidth("420px");
@@ -90,6 +95,28 @@ public class AppointmentLetter extends CustomComponent {
 		buttonOk = new Button("OK");
 		letterLayout.addComponent(buttonCancel);
 		letterLayout.addComponent(buttonOk);
+		
+		buttonCancel.addListener(new Button.ClickListener() {
+			public void buttonClick(ClickEvent event) {
+				doctorField.setValue(""); 
+				commentField.setValue("");
+			}
+				
+		});
+		
+		buttonOk.addListener(new Button.ClickListener() {
+			public void buttonClick(ClickEvent event) {
+				if ((doctorField.getValue().toString().equals("") & urgencyBox.getValue().toString().equals("") & commentField.getValue().toString().equals(""))){
+					System.out.println("Error");
+					
+				}
+				else{
+					Termin termin = new Termin(doctorField.getValue().toString(),datetime.getValue().toString(), urgencyBox.getValue().toString(),commentField.getValue().toString() ); 
+					termine.addTermin(termin); 
+				}
+			}
+				
+		});
 		
 		appointmentLetterScreen.addComponent(panel);
 		
