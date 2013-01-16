@@ -1,10 +1,13 @@
 package ch.bfh.ti.se2012.red.main;
 
+import ch.bfh.ti.se2012.red.Property.Property;
 import ch.bfh.ti.se2012.red.appointment.AppointmentLetter;
 import ch.bfh.ti.se2012.red.appointment.AppointmentMainWindow;
 import ch.bfh.ti.se2012.red.appointment.AppointmentPhone;
 import ch.bfh.ti.se2012.red.home.HomeScreen;
 import ch.bfh.ti.se2012.red.login.LoginWindow;
+import ch.bfh.ti.se2012.red.myDay.MyDay;
+
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
@@ -20,6 +23,8 @@ public class HomeFrame extends CustomComponent {
 	private static Navigation navigation;
 	private static AppointmentLetter appLetter;
 	private static AppointmentPhone appPhone;
+	private static Property appProperty;
+	private static MyDay appmyday;
 
 	public HomeFrame() {
 
@@ -45,6 +50,7 @@ public class HomeFrame extends CustomComponent {
 		appLetter = new AppointmentLetter();
 		appPhone = new AppointmentPhone();
 		navigation = new Navigation();
+		appProperty = new Property();
 
 		return mainLayout;
 
@@ -58,14 +64,17 @@ public class HomeFrame extends CustomComponent {
 		} else if (oldwindow.equals("home") & newwindow.equals("appLetter")) {
 			mainLayout.replaceComponent(home, appLetter);
 			mainLayout.addComponent(navigation);
-		} else if (oldwindow.equals("appLetter") & newwindow.equals("home")) {
-			mainLayout.replaceComponent(appLetter, home);
-			mainLayout.addComponent(navigation);
 		} else if (oldwindow.equals("home") & newwindow.equals("appPhone")) {
 			mainLayout.replaceComponent(home, appPhone);
 			mainLayout.addComponent(navigation);
-		} else if (oldwindow.equals("appPhone") & newwindow.equals("home")) {
-			mainLayout.replaceComponent(appPhone, home);
+		} else if (oldwindow.equals("home") & newwindow.equals("appmyday")) {
+			mainLayout.replaceComponent(home, appmyday);
+			mainLayout.addComponent(navigation); 
+		} else if (oldwindow.equals("home") & newwindow.equals("appProperty")) {
+			mainLayout.replaceComponent(home, appProperty);
+			mainLayout.addComponent(navigation); 
+		} else if (oldwindow.equals("appProperty") & newwindow.equals("appProperty")) {
+			mainLayout.replaceComponent(appProperty, appProperty);
 			mainLayout.addComponent(navigation); 
 		} else if (oldwindow.equals("menu") & newwindow.equals("home")) {
 			mainLayout.replaceComponent(mainLayout.getComponent(1), home);

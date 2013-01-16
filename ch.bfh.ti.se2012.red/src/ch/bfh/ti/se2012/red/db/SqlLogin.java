@@ -13,6 +13,7 @@ public class SqlLogin implements IntSqlLogin {
     private ResultSet rs;
     private SQLLocalConnection conection;
     private String result;
+    private String result2;
 	private Connection conn;
 
     public SqlLogin() {
@@ -59,21 +60,16 @@ public class SqlLogin implements IntSqlLogin {
     public String setpassword(String username, String newpassword) {
         try {	
         	
-        	String query = "SELECT UPassword FROM db_red.dbo.Login WHERE Username='"
+        	String query = "SELECT * FROM db_red.dbo.Login WHERE Username='"
                      + username + "'";
             rs = stmt.executeQuery(query);
-     
             	
             if(rs.next()){
-            rs.updateString(1, newpassword);
-            }
-
+            rs.updateString("UPassword", newpassword); 
+            rs.updateRow();
             
-//            while (rs.next()) {
-//                // Loop through the result set
-//                result = rs.getString(1);
-//            }
-            // Close the result set, statement and the connection
+            }
+            result2 = rs.getString(4);
             rs.close();
             
 
@@ -81,8 +77,8 @@ public class SqlLogin implements IntSqlLogin {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        if (result!=null){
-        	return result;	
+        if (result2!=null){
+        	return result2;	
         }
         else 
         	return "false"; 

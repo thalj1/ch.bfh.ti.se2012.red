@@ -77,9 +77,20 @@ public class HomeScreen extends CustomComponent {
 				HomeFrame.changetoWindow("home", "appLetter"); 
 
 			}
-		}
+		});
+		
+		button6.addListener(new Button.ClickListener() {
+			public void buttonClick(ClickEvent event) {
+				HomeFrame.changetoWindow("home", "appProperty"); 
 
-		);
+			}
+		});
+		button3.addListener(new Button.ClickListener() {
+			public void buttonClick(ClickEvent event) {
+				HomeFrame.changetoWindow("home", "appmyday"); 
+
+			}
+		});
 
 		return homeScreen;
 	}
